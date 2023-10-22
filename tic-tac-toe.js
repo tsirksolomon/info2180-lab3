@@ -12,8 +12,7 @@ window.onload = function() {    //If I don't use this it acts weird
 
     let gameBoard = ['', '', '',
                      '', '', '',
-                     '', '', ''
-                    ];
+                     '', '', ''];
     const playerX = 'X';
     const playerO = 'O';
     let currentPlayer = playerX;
@@ -34,9 +33,10 @@ window.onload = function() {    //If I don't use this it acts weird
             cell.addEventListener('mouseover', cellHover.bind(null, cell));
             cell.addEventListener('mouseout', cellMouseOut.bind(null, cell));
             winner.classList.remove('you-won');
-            document.getElementById('status').innerText = "Move your mouse over a square and click to play an X or an O."
+            winner.innerText = "Move your mouse over a square and click to play an X or an O.";
         });
     }
+
 
     function cellHover(cell){
         cell.classList.add('hover');
@@ -61,16 +61,23 @@ window.onload = function() {    //If I don't use this it acts weird
             }
         }
         if (isWinner()) {
+            disableBoard();
+
             winner.classList.add('you-won');
-            document.getElementById('status').innerText = currentPlayer + " " + "lost";
-            disableBoard(); 
+            if (currentPlayer == playerO) {
+                winner.innerText = "Congratulations! X is the Winner!";
+            } else {
+                winner.innerText = "Congratulations!O is the Winner!";
+            }
         }
+        
         cell.removeEventListener('click', cellClick);
     }
 
     function disableBoard(){
-        boardCell.forEach((cell) => {
-            cell.removeEventListener('click', cellClick);
+        console.log("Function called");
+        boardCell.forEach((cell, index) => {
+            cell.removeEventListener('click', cellClick.bind(null, cell, index));
         });
     }
 
